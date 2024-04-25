@@ -372,14 +372,14 @@
                     StartScene();
                     break;
                 case 1:
-                    StoreManagementScene();
+                    StoreBuyScene();
                     break;
                 default:
                     break;
             }
         }
 
-        private void StoreManagementScene()
+        private void StoreBuyScene()
         {
             Console.Clear();
             Console.WriteLine("상점 - 아이템 구매");
