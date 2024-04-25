@@ -426,6 +426,58 @@
                 {
                     Console.WriteLine("잘못된 입력입니다.");
                 }
+                else if(inputNum > 0)
+                {
+                    if (items[inputNum - 1].isBuy == true)
+                    {
+                        Console.WriteLine("이미 구매한 아이템입니다.\n");
+                    }
+                    else if (items[inputNum - 1].gold > gold)
+                    {
+                        Console.WriteLine("Gold 가 부족합니다.\n");
+                    }
+                    else
+                    {
+                        items[inputNum - 1].isBuy = true;
+                        gold -= items[inputNum - 1].gold;
+
+                        Console.Clear();
+                        Console.WriteLine("상점 - 아이템 구매");
+                        Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+                        Console.WriteLine("[보유 골드]");
+                        Console.WriteLine($"{gold} G\n");
+                        Console.WriteLine("[아이템 목록]");
+
+                        idx = 1;
+                        foreach (Item item in items)
+                        {
+                            Console.Write("- ");
+                            Console.Write($"{idx++} ");
+                            Console.Write($"{item.name.PadRight(10)} | ");
+                            if (item.attack > 0)
+                            {
+                                Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
+                            }
+                            else
+                            {
+                                Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
+                            }
+                            Console.Write($"{item.description.ToString().PadRight(30)} | ");
+                            if (item.isBuy)
+                            {
+                                Console.WriteLine("구매완료");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{item.gold} G");
+                            }
+                        }
+
+                        Console.WriteLine("\n0. 나가기\n");
+
+                        Console.WriteLine("구매를 완료했습니다.\n");
+                    }
+                }
                 else
                 {
                     sceneNumber = inputNum;
@@ -439,13 +491,6 @@
                     StoreScene();
                     break;
                 default:
-                    idx = sceneNumber;
-                    if (items[idx - 1].isBuy == false && items[idx - 1].gold <= gold)
-                    {
-                        items[idx - 1].isBuy = true;
-                        gold -= items[idx - 1].gold;
-                    }
-                    StoreManagementScene();
                     break;
             }
         }
