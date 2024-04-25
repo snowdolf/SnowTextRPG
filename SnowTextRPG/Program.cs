@@ -78,32 +78,9 @@
                 return;
             }
 
-            Console.Clear();
-            Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
-            Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
-            Console.WriteLine("1. 상태보기");
-            Console.WriteLine("2. 인벤토리");
-            Console.WriteLine("3. 상점");
-            Console.WriteLine("4. 던전입장");
-            Console.WriteLine("5. 휴식하기\n");
+            StartSceneText();
 
-            while (true)
-            {
-                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
-
-                int inputNum;
-                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
-
-                if (!isInt || inputNum < 1 || inputNum > 5)
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-                else
-                {
-                    sceneNumber = inputNum;
-                    break;
-                }
-            }
+            AskSceneNumber(1, 5);
 
             switch (sceneNumber)
             {
@@ -129,51 +106,9 @@
 
         private void StateScene()
         {
-            Console.Clear();
-            Console.WriteLine("상태 보기");
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
-            Console.WriteLine($"LV. {level.ToString().PadLeft(2, '0')}");
-            Console.WriteLine($"{name} ( {job} )");
-            if(level % 2 == 1)
-            {
-                Console.Write($"공격력 : {(attack + itemAttack)} ");
-            }
-            else
-            {
-                Console.Write($"공격력 : {(attack + itemAttack):F1} ");
-            }
-            if(itemAttack > 0)
-            {
-                Console.Write($"(+{itemAttack})");
-            }
-            Console.WriteLine("");
-            Console.Write($"방어력 : {defence + itemDefence} ");
-            if (itemDefence > 0)
-            {
-                Console.Write($"(+{itemDefence})");
-            }
-            Console.WriteLine("");
-            Console.WriteLine($"체  력 : {hp}");
-            Console.WriteLine($"Gold   : {gold} G\n");
-            Console.WriteLine("0. 나가기\n");
+            StateSceneText();
 
-            while (true)
-            {
-                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
-
-                int inputNum;
-                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
-
-                if (!isInt || inputNum < 0 || inputNum > 0)
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-                else
-                {
-                    sceneNumber = inputNum;
-                    break;
-                }
-            }
+            AskSceneNumber(0, 0);
 
             switch (sceneNumber)
             {
@@ -187,54 +122,9 @@
 
         private void InventoryScene()
         {
-            Console.Clear();
-            Console.WriteLine("인벤토리");
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-            Console.WriteLine("[아이템 목록]");
+            InventorySceneText();
 
-            foreach(Item item in items)
-            {
-                if (item.isBuy == false)
-                {
-                    continue;
-                }
-                Console.Write("- ");
-                if (item.isEquipped)
-                {
-                    Console.Write("[E]");
-                }
-                Console.Write($"{item.name.PadRight(10)} | ");
-                if (item.attack > 0)
-                {
-                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
-                }
-                else
-                {
-                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
-                }
-                Console.WriteLine($"{item.description}");
-            }
-
-            Console.WriteLine("\n1. 장착 관리");
-            Console.WriteLine("0. 나가기\n");
-
-            while (true)
-            {
-                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
-
-                int inputNum;
-                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
-
-                if (!isInt || inputNum < 0 || inputNum > 1)
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-                else
-                {
-                    sceneNumber = inputNum;
-                    break;
-                }
-            }
+            AskSceneNumber(0, 1);
 
             switch (sceneNumber)
             {
@@ -251,55 +141,11 @@
 
         private void InventoryManagementScene()
         {
-            Console.Clear();
-            Console.WriteLine("인벤토리 - 장착 관리");
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-            Console.WriteLine("[아이템 목록]");
-
             int idx = 1;
-            foreach (Item item in items)
-            {
-                if (item.isBuy == false)
-                {
-                    continue;
-                }
-                Console.Write("- ");
-                Console.Write($"{idx++} ");
-                if (item.isEquipped)
-                {
-                    Console.Write("[E]");
-                }
-                Console.Write($"{item.name.PadRight(10)} | ");
-                if (item.attack > 0)
-                {
-                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
-                }
-                else
-                {
-                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
-                }
-                Console.WriteLine($"{item.description}");
-            }
 
-            Console.WriteLine("\n0. 나가기\n");
+            InventoryManagementSceneText(ref idx);
 
-            while (true)
-            {
-                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
-
-                int inputNum;
-                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
-
-                if (!isInt || inputNum < 0 || inputNum > idx - 1)
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-                else
-                {
-                    sceneNumber = inputNum;
-                    break;
-                }
-            }
+            AskSceneNumber(0, idx - 1);
 
             switch (sceneNumber)
             {
@@ -364,57 +210,9 @@
 
         private void StoreScene()
         {
-            Console.Clear();
-            Console.WriteLine("상점");
-            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-            Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{gold} G\n");
-            Console.WriteLine("[아이템 목록]");
+            StoreSceneText();
 
-            foreach (Item item in items)
-            {
-                Console.Write("- ");
-                Console.Write($"{item.name.PadRight(10)} | ");
-                if (item.attack > 0)
-                {
-                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
-                }
-                else
-                {
-                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
-                }
-                Console.Write($"{item.description.ToString().PadRight(30)} | ");
-                if(item.isBuy)
-                {
-                    Console.WriteLine("구매완료");
-                }
-                else
-                {
-                    Console.WriteLine($"{item.gold} G");
-                }
-            }
-
-            Console.WriteLine("\n1. 아이템 구매");
-            Console.WriteLine("2. 아이템 판매");
-            Console.WriteLine("0. 나가기\n");
-
-            while (true)
-            {
-                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
-
-                int inputNum;
-                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
-
-                if (!isInt || inputNum < 0 || inputNum > 2)
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-                else
-                {
-                    sceneNumber = inputNum;
-                    break;
-                }
-            }
+            AskSceneNumber(0, 2);
 
             switch (sceneNumber)
             {
@@ -434,39 +232,9 @@
 
         private void StoreBuyScene()
         {
-            Console.Clear();
-            Console.WriteLine("상점 - 아이템 구매");
-            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-            Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{gold} G\n");
-            Console.WriteLine("[아이템 목록]");
-
             int idx = 1;
-            foreach (Item item in items)
-            {
-                Console.Write("- ");
-                Console.Write($"{idx++} ");
-                Console.Write($"{item.name.PadRight(10)} | ");
-                if (item.attack > 0)
-                {
-                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
-                }
-                else
-                {
-                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
-                }
-                Console.Write($"{item.description.ToString().PadRight(30)} | ");
-                if (item.isBuy)
-                {
-                    Console.WriteLine("구매완료");
-                }
-                else
-                {
-                    Console.WriteLine($"{item.gold} G");
-                }
-            }
 
-            Console.WriteLine("\n0. 나가기\n");
+            StoreBuySceneText(ref idx);
 
             while (true)
             {
@@ -494,39 +262,7 @@
                         items[inputNum - 1].isBuy = true;
                         gold -= items[inputNum - 1].gold;
 
-                        Console.Clear();
-                        Console.WriteLine("상점 - 아이템 구매");
-                        Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-                        Console.WriteLine("[보유 골드]");
-                        Console.WriteLine($"{gold} G\n");
-                        Console.WriteLine("[아이템 목록]");
-
-                        idx = 1;
-                        foreach (Item item in items)
-                        {
-                            Console.Write("- ");
-                            Console.Write($"{idx++} ");
-                            Console.Write($"{item.name.PadRight(10)} | ");
-                            if (item.attack > 0)
-                            {
-                                Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
-                            }
-                            else
-                            {
-                                Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
-                            }
-                            Console.Write($"{item.description.ToString().PadRight(30)} | ");
-                            if (item.isBuy)
-                            {
-                                Console.WriteLine("구매완료");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"{item.gold} G");
-                            }
-                        }
-
-                        Console.WriteLine("\n0. 나가기\n");
+                        StoreBuySceneText(ref idx);
 
                         Console.WriteLine("구매를 완료했습니다.\n");
                     }
@@ -550,36 +286,9 @@
 
         private void StoreSellScene()
         {
-            Console.Clear();
-            Console.WriteLine("상점 - 아이템 판매");
-            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-            Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{gold} G\n");
-            Console.WriteLine("[아이템 목록]");
-            
             int idx = 1;
-            foreach (Item item in items)
-            {
-                if(item.isBuy == false)
-                {
-                    continue;
-                }
-                Console.Write("- ");
-                Console.Write($"{idx++} ");
-                Console.Write($"{item.name.PadRight(10)} | ");
-                if (item.attack > 0)
-                {
-                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
-                }
-                else
-                {
-                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
-                }
-                Console.Write($"{item.description.ToString().PadRight(30)} | ");
-                Console.WriteLine($"{item.gold} G");
-            }
 
-            Console.WriteLine("\n0. 나가기\n");
+            StoreSellSceneText(ref idx);
 
             while (true)
             {
@@ -616,40 +325,10 @@
                     }
                     items[idx - 1].isBuy = false;
                     gold += items[idx - 1].gold * 85 / 100;
-                    {
-                        Console.Clear();
-                        Console.WriteLine("상점 - 아이템 판매");
-                        Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-                        Console.WriteLine("[보유 골드]");
-                        Console.WriteLine($"{gold} G\n");
-                        Console.WriteLine("[아이템 목록]");
 
-                        idx = 1;
-                        foreach (Item item in items)
-                        {
-                            if (item.isBuy == false)
-                            {
-                                continue;
-                            }
-                            Console.Write("- ");
-                            Console.Write($"{idx++} ");
-                            Console.Write($"{item.name.PadRight(10)} | ");
-                            if (item.attack > 0)
-                            {
-                                Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
-                            }
-                            else
-                            {
-                                Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
-                            }
-                            Console.Write($"{item.description.ToString().PadRight(30)} | ");
-                            Console.WriteLine($"{item.gold} G");
-                        }
+                    StoreSellSceneText(ref idx);
 
-                        Console.WriteLine("\n0. 나가기\n");
-
-                        Console.WriteLine("판매를 완료했습니다.\n");
-                    }
+                    Console.WriteLine("판매를 완료했습니다.\n");
                 }
                 else
                 {
@@ -670,31 +349,9 @@
 
         private void DungeonScene()
         {
-            Console.Clear();
-            Console.WriteLine("던전입장");
-            Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
-            Console.WriteLine("1. 쉬운   던전 | 방어력 5  이상 권장");
-            Console.WriteLine("2. 일반   던전 | 방어력 11 이상 권장");
-            Console.WriteLine("3. 어려운 던전 | 방어력 17 이상 권장");
-            Console.WriteLine("0. 나가기\n");
+            DungeonSceneText();
 
-            while (true)
-            {
-                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
-
-                int inputNum;
-                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
-
-                if (!isInt || inputNum < 0 || inputNum > 3)
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-                else
-                {
-                    sceneNumber = inputNum;
-                    break;
-                }
-            }
+            AskSceneNumber(0, 3);
 
             switch (sceneNumber)
             {
@@ -712,6 +369,7 @@
             string stageName = "";
             int stageDefence = 0;
             int stageGold = 0;
+
             switch(stage)
             {
                 case 1:
@@ -745,18 +403,7 @@
 
             if(isDungeonClear)
             {
-                Console.Clear();
-                Console.WriteLine("던전 클리어");
-                Console.WriteLine("축하합니다!!");
-                Console.WriteLine($"{stageName} 던전을 클리어 하였습니다.\n");
-                Console.WriteLine("[탐험 결과]");
-                Console.Write($"체력 {hp} -> ");
-                hp -= (random.Next(20, 35) + stageDefence - (defence + itemDefence));
-                Console.WriteLine($"{hp}");
-                Console.Write($"Gold {gold} G -> ");
-                gold += (stageGold * (100 + random.Next((int)(attack + itemAttack), (int)(2 * (attack + itemAttack)))) / 100);
-                Console.WriteLine($"{gold} G");
-                Console.WriteLine("0. 나가기\n");
+                DungeonManagementSceneClearText(stageName, stageDefence, stageGold);
 
                 clearCount++;
                 if(clearCount == level)
@@ -769,34 +416,10 @@
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine("던전 실패");
-                Console.WriteLine("............");
-                Console.WriteLine($"{stageName} 던전을 실패 하였습니다.\n");
-                Console.WriteLine("[탐험 결과]");
-                Console.Write($"체력 {hp} -> ");
-                hp /= 2;
-                Console.WriteLine($"{hp}");
-                Console.WriteLine("0. 나가기\n");
+                DungeonManagementSceneFailText(stageName);
             }
 
-            while (true)
-            {
-                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
-
-                int inputNum;
-                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
-
-                if (!isInt || inputNum < 0 || inputNum > 0)
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-                else
-                {
-                    sceneNumber = inputNum;
-                    break;
-                }
-            }
+            AskSceneNumber(0, 0);
 
             switch (sceneNumber)
             {
@@ -810,11 +433,7 @@
 
         private void RestScene()
         {
-            Console.Clear();
-            Console.WriteLine("휴식하기");
-            Console.WriteLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {gold} G)\n");
-            Console.WriteLine("1. 휴식하기");
-            Console.WriteLine("0. 나가기\n");
+            RestSceneText();
 
             while (true)
             {
@@ -829,11 +448,7 @@
                 }
                 else if(inputNum > 0)
                 {
-                    Console.Clear();
-                    Console.WriteLine("휴식하기");
-                    Console.WriteLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {gold} G)\n");
-                    Console.WriteLine("1. 휴식하기");
-                    Console.WriteLine("0. 나가기\n");
+                    RestSceneText();
 
                     if(gold < 500)
                     {
@@ -861,6 +476,296 @@
                 default:
                     break;
             }
+        }
+
+        public void AskSceneNumber(int left, int right)
+        {
+            while (true)
+            {
+                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
+
+                int inputNum;
+                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
+
+                if (!isInt || inputNum < left || inputNum > right)
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+                else
+                {
+                    sceneNumber = inputNum;
+                    break;
+                }
+            }
+        }
+
+        public void StartSceneText()
+        {
+            Console.Clear();
+            Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
+            Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
+            Console.WriteLine("1. 상태보기");
+            Console.WriteLine("2. 인벤토리");
+            Console.WriteLine("3. 상점");
+            Console.WriteLine("4. 던전입장");
+            Console.WriteLine("5. 휴식하기\n");
+        }
+
+        public void StateSceneText()
+        {
+            Console.Clear();
+            Console.WriteLine("상태 보기");
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            Console.WriteLine($"LV. {level.ToString().PadLeft(2, '0')}");
+            Console.WriteLine($"{name} ( {job} )");
+            if (level % 2 == 1)
+            {
+                Console.Write($"공격력 : {(attack + itemAttack)} ");
+            }
+            else
+            {
+                Console.Write($"공격력 : {(attack + itemAttack):F1} ");
+            }
+            if (itemAttack > 0)
+            {
+                Console.Write($"(+{itemAttack})");
+            }
+            Console.WriteLine("");
+            Console.Write($"방어력 : {defence + itemDefence} ");
+            if (itemDefence > 0)
+            {
+                Console.Write($"(+{itemDefence})");
+            }
+            Console.WriteLine("");
+            Console.WriteLine($"체  력 : {hp}");
+            Console.WriteLine($"Gold   : {gold} G\n");
+            Console.WriteLine("0. 나가기\n");
+        }
+
+        public void InventorySceneText()
+        {
+            Console.Clear();
+            Console.WriteLine("인벤토리");
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+            Console.WriteLine("[아이템 목록]");
+
+            foreach (Item item in items)
+            {
+                if (item.isBuy == false)
+                {
+                    continue;
+                }
+                Console.Write("- ");
+                if (item.isEquipped)
+                {
+                    Console.Write("[E]");
+                }
+                Console.Write($"{item.name.PadRight(10)} | ");
+                if (item.attack > 0)
+                {
+                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
+                }
+                else
+                {
+                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
+                }
+                Console.WriteLine($"{item.description}");
+            }
+
+            Console.WriteLine("\n1. 장착 관리");
+            Console.WriteLine("0. 나가기\n");
+        }
+
+        public void InventoryManagementSceneText(ref int idx)
+        {
+            Console.Clear();
+            Console.WriteLine("인벤토리 - 장착 관리");
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+            Console.WriteLine("[아이템 목록]");
+
+            idx = 1;
+            foreach (Item item in items)
+            {
+                if (item.isBuy == false)
+                {
+                    continue;
+                }
+                Console.Write("- ");
+                Console.Write($"{idx++} ");
+                if (item.isEquipped)
+                {
+                    Console.Write("[E]");
+                }
+                Console.Write($"{item.name.PadRight(10)} | ");
+                if (item.attack > 0)
+                {
+                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
+                }
+                else
+                {
+                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
+                }
+                Console.WriteLine($"{item.description}");
+            }
+
+            Console.WriteLine("\n0. 나가기\n");
+        }
+
+        public void StoreSceneText()
+        {
+            Console.Clear();
+            Console.WriteLine("상점");
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{gold} G\n");
+            Console.WriteLine("[아이템 목록]");
+
+            foreach (Item item in items)
+            {
+                Console.Write("- ");
+                Console.Write($"{item.name.PadRight(10)} | ");
+                if (item.attack > 0)
+                {
+                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
+                }
+                else
+                {
+                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
+                }
+                Console.Write($"{item.description.ToString().PadRight(30)} | ");
+                if (item.isBuy)
+                {
+                    Console.WriteLine("구매완료");
+                }
+                else
+                {
+                    Console.WriteLine($"{item.gold} G");
+                }
+            }
+
+            Console.WriteLine("\n1. 아이템 구매");
+            Console.WriteLine("2. 아이템 판매");
+            Console.WriteLine("0. 나가기\n");
+        }
+
+        public void StoreBuySceneText(ref int idx)
+        {
+            Console.Clear();
+            Console.WriteLine("상점 - 아이템 구매");
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{gold} G\n");
+            Console.WriteLine("[아이템 목록]");
+
+            idx = 1;
+            foreach (Item item in items)
+            {
+                Console.Write("- ");
+                Console.Write($"{idx++} ");
+                Console.Write($"{item.name.PadRight(10)} | ");
+                if (item.attack > 0)
+                {
+                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
+                }
+                else
+                {
+                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
+                }
+                Console.Write($"{item.description.ToString().PadRight(30)} | ");
+                if (item.isBuy)
+                {
+                    Console.WriteLine("구매완료");
+                }
+                else
+                {
+                    Console.WriteLine($"{item.gold} G");
+                }
+            }
+
+            Console.WriteLine("\n0. 나가기\n");
+        }
+
+        public void StoreSellSceneText(ref int idx)
+        {
+            Console.Clear();
+            Console.WriteLine("상점 - 아이템 판매");
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{gold} G\n");
+            Console.WriteLine("[아이템 목록]");
+
+            idx = 1;
+            foreach (Item item in items)
+            {
+                if (item.isBuy == false)
+                {
+                    continue;
+                }
+                Console.Write("- ");
+                Console.Write($"{idx++} ");
+                Console.Write($"{item.name.PadRight(10)} | ");
+                if (item.attack > 0)
+                {
+                    Console.Write($"공격력 +{item.attack.ToString().PadRight(2)} | ");
+                }
+                else
+                {
+                    Console.Write($"방어력 +{item.defence.ToString().PadRight(2)} | ");
+                }
+                Console.Write($"{item.description.ToString().PadRight(30)} | ");
+                Console.WriteLine($"{item.gold} G");
+            }
+
+            Console.WriteLine("\n0. 나가기\n");
+        }
+
+        public void DungeonSceneText()
+        {
+            Console.Clear();
+            Console.WriteLine("던전입장");
+            Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
+            Console.WriteLine("1. 쉬운   던전 | 방어력 5  이상 권장");
+            Console.WriteLine("2. 일반   던전 | 방어력 11 이상 권장");
+            Console.WriteLine("3. 어려운 던전 | 방어력 17 이상 권장");
+            Console.WriteLine("0. 나가기\n");
+        }
+
+        public void DungeonManagementSceneClearText(string stageName, int stageDefence, int stageGold)
+        {
+            Console.Clear();
+            Console.WriteLine("던전 클리어");
+            Console.WriteLine("축하합니다!!");
+            Console.WriteLine($"{stageName} 던전을 클리어 하였습니다.\n");
+            Console.WriteLine("[탐험 결과]");
+            Console.Write($"체력 {hp} -> ");
+            hp -= (random.Next(20, 35) + stageDefence - (defence + itemDefence));
+            Console.WriteLine($"{hp}");
+            Console.Write($"Gold {gold} G -> ");
+            gold += (stageGold * (100 + random.Next((int)(attack + itemAttack), (int)(2 * (attack + itemAttack)))) / 100);
+            Console.WriteLine($"{gold} G");
+            Console.WriteLine("0. 나가기\n");
+        }
+
+        public void DungeonManagementSceneFailText(string stageName)
+        {
+            Console.Clear();
+            Console.WriteLine("던전 실패");
+            Console.WriteLine("............");
+            Console.WriteLine($"{stageName} 던전을 실패 하였습니다.\n");
+            Console.WriteLine("[탐험 결과]");
+            Console.Write($"체력 {hp} -> ");
+            hp /= 2;
+            Console.WriteLine($"{hp}");
+            Console.WriteLine("0. 나가기\n");
+        }
+
+        public void RestSceneText()
+        {
+            Console.Clear();
+            Console.WriteLine("휴식하기");
+            Console.WriteLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {gold} G)\n");
+            Console.WriteLine("1. 휴식하기");
+            Console.WriteLine("0. 나가기\n");
         }
     }
 
