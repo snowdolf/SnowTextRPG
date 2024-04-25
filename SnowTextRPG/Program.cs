@@ -25,11 +25,12 @@
     public class SnowTextRPG
     {
         private int sceneNumber;
+        private int clearCount;
 
         private int level;
         private string name;
         private string job;
-        private int attack;
+        private float attack;
         private int itemAttack;
         private int defence;
         private int itemDefence;
@@ -43,6 +44,7 @@
         public SnowTextRPG()
         {
             this.sceneNumber = 0;
+            this.clearCount = 0;
 
             this.level = 1;
             this.name = "Snow";
@@ -126,7 +128,14 @@
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
             Console.WriteLine($"LV. {level.ToString().PadLeft(2, '0')}");
             Console.WriteLine($"{name} ( {job} )");
-            Console.Write($"공격력 : {attack + itemAttack} ");
+            if(level % 2 == 1)
+            {
+                Console.Write($"공격력 : {(attack + itemAttack)} ");
+            }
+            else
+            {
+                Console.Write($"공격력 : {(attack + itemAttack):F1} ");
+            }
             if(itemAttack > 0)
             {
                 Console.Write($"(+{itemAttack})");
@@ -719,7 +728,7 @@
             }
 
             bool isDungeonClear = true;
-            if (defence < stageDefence)
+            if ((defence + itemDefence) < stageDefence)
             {
                 int prop = random.Next(100);
                 if (prop < 40)
@@ -736,12 +745,21 @@
                 Console.WriteLine($"{stageName} 던전을 클리어 하였습니다.\n");
                 Console.WriteLine("[탐험 결과]");
                 Console.Write($"체력 {hp} -> ");
-                hp -= (random.Next(20, 35) + stageDefence - defence);
+                hp -= (random.Next(20, 35) + stageDefence - (defence + itemDefence));
                 Console.WriteLine($"{hp}");
                 Console.Write($"Gold {gold} G -> ");
-                gold += (stageGold * (100 + random.Next(attack, 2 * attack)) / 100);
+                gold += (stageGold * (100 + random.Next((int)(attack + itemAttack), (int)(2 * (attack + itemAttack)))) / 100);
                 Console.WriteLine($"{gold} G");
                 Console.WriteLine("0. 나가기\n");
+
+                clearCount++;
+                if(clearCount == level)
+                {
+                    clearCount = 0;
+                    level++;
+                    attack += 0.5f;
+                    defence++;
+                }
             }
             else
             {
