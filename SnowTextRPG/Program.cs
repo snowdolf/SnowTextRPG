@@ -446,20 +446,11 @@
                 {
                     Console.WriteLine("잘못된 입력입니다.\n");
                 }
-                else if(inputNum > 0)
+                else if(inputNum > 0 && gold < 500)
                 {
                     RestSceneText();
 
-                    if(gold < 500)
-                    {
-                        Console.WriteLine("Gold 가 부족합니다.\n");
-                    }
-                    else
-                    {
-                        Console.WriteLine("휴식을 완료했습니다.\n");
-                        gold -= 500;
-                        hp = 100;
-                    }
+                    Console.WriteLine("Gold 가 부족합니다.\n");
                 }
                 else
                 {
@@ -467,6 +458,28 @@
                     break;
                 }
             }
+
+            switch (sceneNumber)
+            {
+                case 0:
+                    StartScene();
+                    break;
+                case 1:
+                    RestManagementScene();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void RestManagementScene()
+        {
+            gold -= 500;
+            hp = 100;
+
+            RestManagementSceneText();
+
+            AskSceneNumber(0, 0);
 
             switch (sceneNumber)
             {
@@ -765,6 +778,14 @@
             Console.WriteLine("휴식하기");
             Console.WriteLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {gold} G)\n");
             Console.WriteLine("1. 휴식하기");
+            Console.WriteLine("0. 나가기\n");
+        }
+
+        public void RestManagementSceneText()
+        {
+            Console.Clear();
+            Console.WriteLine("휴식 완료");
+            Console.WriteLine($"체력이 모두 회복되었습니다. (보유 골드 : {gold} G)\n");
             Console.WriteLine("0. 나가기\n");
         }
     }
