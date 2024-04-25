@@ -304,6 +304,30 @@
                     }
                     else
                     {
+                        if (items[idx - 1].attack > 0)
+                        {
+                            foreach(Item item in items)
+                            {
+                                if (item.isEquipped && item.attack > 0)
+                                {
+                                    item.isEquipped = false;
+                                    itemAttack -= item.attack;
+                                    itemDefence -= item.defence;
+                                }
+                            }
+                        }
+                        else if (items[idx - 1].defence > 0)
+                        {
+                            foreach (Item item in items)
+                            {
+                                if (item.isEquipped && item.defence > 0)
+                                {
+                                    item.isEquipped = false;
+                                    itemAttack -= item.attack;
+                                    itemDefence -= item.defence;
+                                }
+                            }
+                        }
                         items[idx - 1].isEquipped = true;
                         itemAttack += items[idx - 1].attack;
                         itemDefence += items[idx - 1].defence;
