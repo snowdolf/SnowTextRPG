@@ -37,6 +37,8 @@
         private int gold;
 
         private List<Item> items;
+
+        Random random = new Random();
         
         public SnowTextRPG()
         {
@@ -681,9 +683,103 @@
                     StartScene();
                     break;
                 default:
+                    DungeonManagementScene(sceneNumber);
                     break;
             }
         }
+
+        private void DungeonManagementScene(int stage)
+        {
+            string stageName = "";
+            int stageDefence = 0;
+            int stageGold = 0;
+            switch(stage)
+            {
+                case 1:
+                    stageName = "쉬운";
+                    stageDefence = 5;
+                    stageGold = 1000;
+                    break;
+                case 2:
+                    stageName = "일반";
+                    stageDefence = 11;
+                    stageGold = 1700;
+                    break;
+                case 3:
+                    stageName = "어려운";
+                    stageDefence = 17;
+                    stageGold = 2500;
+                    break;
+                default:
+                    break;
+            }
+
+            bool isDungeonClear = true;
+            if (defence < stageDefence)
+            {
+                int prop = random.Next(100);
+                if (prop < 40)
+                {
+                    isDungeonClear = false;
+                }
+            }
+
+            if(isDungeonClear)
+            {
+                Console.Clear();
+                Console.WriteLine("던전 클리어");
+                Console.WriteLine("축하합니다!!");
+                Console.WriteLine($"{stageName} 던전을 클리어 하였습니다.\n");
+                Console.WriteLine("[탐험 결과]");
+                Console.Write($"체력 {hp} -> ");
+                hp -= (random.Next(20, 35) + stageDefence - defence);
+                Console.WriteLine($"{hp}");
+                Console.Write($"Gold {gold} G -> ");
+                gold += (stageGold * (100 + random.Next(attack, 2 * attack)) / 100);
+                Console.WriteLine($"{gold} G");
+                Console.WriteLine("0. 나가기\n");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("던전 실패");
+                Console.WriteLine("............");
+                Console.WriteLine($"{stageName} 던전을 실패 하였습니다.\n");
+                Console.WriteLine("[탐험 결과]");
+                Console.Write($"체력 {hp} -> ");
+                hp /= 2;
+                Console.WriteLine($"{hp}");
+                Console.WriteLine("0. 나가기\n");
+            }
+
+            while (true)
+            {
+                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
+
+                int inputNum;
+                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
+
+                if (!isInt || inputNum < 0 || inputNum > 0)
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+                else
+                {
+                    sceneNumber = inputNum;
+                    break;
+                }
+            }
+
+            switch (sceneNumber)
+            {
+                case 0:
+                    StartScene();
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 
     internal class Program
