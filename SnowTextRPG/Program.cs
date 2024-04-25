@@ -76,7 +76,8 @@
             Console.WriteLine("1. 상태보기");
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
-            Console.WriteLine("4. 던전입장\n");
+            Console.WriteLine("4. 던전입장");
+            Console.WriteLine("5. 휴식하기\n");
 
             while (true)
             {
@@ -85,7 +86,7 @@
                 int inputNum;
                 bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
 
-                if (!isInt || inputNum < 1 || inputNum > 4)
+                if (!isInt || inputNum < 1 || inputNum > 5)
                 {
                     Console.WriteLine("잘못된 입력입니다.");
                 }
@@ -109,6 +110,9 @@
                     break;
                 case 4:
                     DungeonScene();
+                    break;
+                case 5:
+                    RestScene();
                     break;
                 default:
                     break;
@@ -780,6 +784,60 @@
             }
         }
 
+        private void RestScene()
+        {
+            Console.Clear();
+            Console.WriteLine("휴식하기");
+            Console.WriteLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {gold} G)\n");
+            Console.WriteLine("1. 휴식하기");
+            Console.WriteLine("0. 나가기\n");
+
+            while (true)
+            {
+                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
+
+                int inputNum;
+                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
+
+                if (!isInt || inputNum < 0 || inputNum > 1)
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+                else if(inputNum > 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("휴식하기");
+                    Console.WriteLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {gold} G)\n");
+                    Console.WriteLine("1. 휴식하기");
+                    Console.WriteLine("0. 나가기\n");
+
+                    if(gold < 500)
+                    {
+                        Console.WriteLine("Gold 가 부족합니다.\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("휴식을 완료했습니다.\n");
+                        gold -= 500;
+                        hp = 100;
+                    }
+                }
+                else
+                {
+                    sceneNumber = inputNum;
+                    break;
+                }
+            }
+
+            switch (sceneNumber)
+            {
+                case 0:
+                    StartScene();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     internal class Program
