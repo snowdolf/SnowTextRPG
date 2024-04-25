@@ -245,7 +245,7 @@
 
                 if (!isInt || inputNum < 0 || inputNum > items.Count)
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.\n");
                 }
                 else if(inputNum > 0)
                 {
@@ -299,7 +299,7 @@
 
                 if (!isInt || inputNum < 0 || inputNum > idx - 1)
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.\n");
                 }
                 else if (inputNum > 0)
                 {
@@ -444,7 +444,7 @@
 
                 if (!isInt || inputNum < 0 || inputNum > 1)
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.\n");
                 }
                 else if(inputNum > 0)
                 {
@@ -489,7 +489,7 @@
 
                 if (!isInt || inputNum < left || inputNum > right)
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.\n");
                 }
                 else
                 {
