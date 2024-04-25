@@ -73,7 +73,8 @@
             Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
             Console.WriteLine("1. 상태보기");
             Console.WriteLine("2. 인벤토리");
-            Console.WriteLine("3. 상점\n");
+            Console.WriteLine("3. 상점");
+            Console.WriteLine("4. 던전입장\n");
 
             while (true)
             {
@@ -82,7 +83,7 @@
                 int inputNum;
                 bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
 
-                if (!isInt || inputNum < 1 || inputNum > 3)
+                if (!isInt || inputNum < 1 || inputNum > 4)
                 {
                     Console.WriteLine("잘못된 입력입니다.");
                 }
@@ -103,6 +104,9 @@
                     break;
                 case 3:
                     StoreScene();
+                    break;
+                case 4:
+                    DungeonScene();
                     break;
                 default:
                     break;
@@ -637,6 +641,44 @@
             {
                 case 0:
                     StoreScene();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void DungeonScene()
+        {
+            Console.Clear();
+            Console.WriteLine("던전입장");
+            Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
+            Console.WriteLine("1. 쉬운   던전 | 방어력 5  이상 권장");
+            Console.WriteLine("2. 일반   던전 | 방어력 11 이상 권장");
+            Console.WriteLine("3. 어려운 던전 | 방어력 17 이상 권장");
+            Console.WriteLine("0. 나가기\n");
+
+            while (true)
+            {
+                Console.Write("원하시는 행동을 입력해주세요.\n>> ");
+
+                int inputNum;
+                bool isInt = int.TryParse(Console.ReadLine(), out inputNum);
+
+                if (!isInt || inputNum < 0 || inputNum > 3)
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+                else
+                {
+                    sceneNumber = inputNum;
+                    break;
+                }
+            }
+
+            switch (sceneNumber)
+            {
+                case 0:
+                    StartScene();
                     break;
                 default:
                     break;
