@@ -1,4 +1,6 @@
-﻿namespace SnowTextRPG
+﻿using Newtonsoft.Json;
+
+namespace SnowTextRPG
 {
     public class Item
     {
@@ -65,6 +67,20 @@
             items.Add(new Item("스파르타의 창  ", 7, 0,  "스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 2700));
         }
 
+        public void SaveItemsToJson(string fileName = "")
+        {
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "items.json");
+            string json = JsonConvert.SerializeObject(items, Formatting.Indented);
+            File.WriteAllText(filePath, json);
+        }
+
+        public void LoadItemsFromJson(string fileName = "")
+        {
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "items.json");
+            string json = File.ReadAllText(filePath);
+            items = JsonConvert.DeserializeObject<List<Item>>(json);
+        }
+
         public void PlayGame()
         {
             StartScene();
@@ -80,7 +96,7 @@
 
             StartSceneText();
 
-            AskSceneNumber(1, 5);
+            AskSceneNumber(1, 7);
 
             switch (sceneNumber)
             {
@@ -98,6 +114,14 @@
                     break;
                 case 5:
                     RestScene();
+                    break;
+                case 6:
+                    SaveItemsToJson();
+                    StartScene();
+                    break;
+                case 7:
+                    LoadItemsFromJson();
+                    StartScene();
                     break;
                 default:
                     break;
@@ -521,7 +545,9 @@
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 던전입장");
-            Console.WriteLine("5. 휴식하기\n");
+            Console.WriteLine("5. 휴식하기");
+            Console.WriteLine("6. 저장하기");
+            Console.WriteLine("7. 불러오기\n");
         }
 
         public void StateSceneText()
